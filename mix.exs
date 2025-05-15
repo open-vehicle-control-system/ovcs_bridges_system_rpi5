@@ -1,8 +1,8 @@
-defmodule OvcsBaseCanSystemRpi5.MixProject do
+defmodule OvcsBridgesRpi5.MixProject do
   use Mix.Project
 
   @github_organization "open-vehicle-control-system"
-  @app :ovcs_base_can_system_rpi5
+  @app :ovcs_bridges_system_rpi5
   @source_url "https://github.com/#{@github_organization}/#{@app}"
   @version Path.join(__DIR__, "VERSION")
            |> File.read!()
