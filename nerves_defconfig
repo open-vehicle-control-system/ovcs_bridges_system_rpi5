@@ -87,6 +87,11 @@ BR2_NERVES_SYSTEM_NAME="ovcs_base_can_system_rpi5"
 BR2_NERVES_ADDITIONAL_IMAGE_FILES="${NERVES_DEFCONFIG_DIR}/fwup.conf ${NERVES_DEFCONFIG_DIR}/cmdline.txt ${NERVES_DEFCONFIG_DIR}/config.txt"
 BR2_PACKAGE_NBTTY=y
 BR2_PACKAGE_NERVES_CONFIG=y
+# Acknowledge nerves_system_br >= 1.32 deprecating the automatic
+# BR2_PACKAGE_RNG_TOOLS dependency (the Linux kernel's getrandom()
+# works fine on >= 5.6, our case). Without this flag the system
+# refuses to build.
+BR2_PACKAGE_NERVES_CONFIG_ACCEPT_RNG_NOTICE=y
 BR2_PACKAGE_RPICAM_APPS=y
 BR2_PACKAGE_RPI_DISTRO_BLUEZ_FIRMWARE=y
 BR2_PACKAGE_RPI_DISTRO_FIRMWARE_NONFREE=y
