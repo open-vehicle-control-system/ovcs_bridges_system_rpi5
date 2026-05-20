@@ -1,8 +1,8 @@
-defmodule NervesSystemRpi5.MixProject do
+defmodule OvcsBridgesSystemRpi5.MixProject do
   use Mix.Project
 
-  @github_organization "nerves-project"
-  @app :nerves_system_rpi5
+  @github_organization "open-vehicle-control-system"
+  @app :ovcs_bridges_system_rpi5
   @source_url "https://github.com/#{@github_organization}/#{@app}"
   @version Path.join(__DIR__, "VERSION")
            |> File.read!()
@@ -78,7 +78,7 @@ defmodule NervesSystemRpi5.MixProject do
   end
 
   defp description do
-    "Nerves System - Raspberry Pi 5 (64-bits)"
+    "OVCS bridges Nerves System for Raspberry Pi 5 (64-bit) — perception + camera bridges"
   end
 
   defp docs do
@@ -99,7 +99,7 @@ defmodule NervesSystemRpi5.MixProject do
       links: %{
         "GitHub" => @source_url,
         "REUSE Compliance" =>
-          "https://api.reuse.software/info/github.com/nerves-project/nerves_system_rpi5"
+          "https://api.reuse.software/info/github.com/open-vehicle-control-system/ovcs_bridges_system_rpi5"
       }
     ]
   end

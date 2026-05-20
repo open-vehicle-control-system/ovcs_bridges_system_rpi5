@@ -62,6 +62,20 @@ BR2_PACKAGE_CAIRO=y
 BR2_PACKAGE_DTC=y
 BR2_PACKAGE_X264=y
 BR2_PACKAGE_LIBMNL=y
+# OVCS bridges system additions — CAN tooling + IP routing/filtering
+# used by Cantastic (vcan auto-create), socketcand bridges, and any
+# downstream firewall rules. None of these are pulled in by the
+# upstream nerves_system_rpi5 defconfig.
+BR2_PACKAGE_LIBSOCKETCAN=y
+BR2_PACKAGE_CAN_UTILS=y
+BR2_PACKAGE_IPROUTE2=y
+BR2_PACKAGE_IPTABLES=y
+BR2_PACKAGE_SOCKETCAND=y
+# Intel Wi-Fi 6 firmware (AX2xx series). The perception Pi commonly
+# runs over Wi-Fi when on a bench; the iwlwifi driver needs this
+# blob to bring AX cards up.
+BR2_PACKAGE_LINUX_FIRMWARE=y
+BR2_PACKAGE_LINUX_FIRMWARE_IWLWIFI_6E=y
 BR2_PACKAGE_WIRELESS_REGDB=y
 BR2_PACKAGE_WPA_SUPPLICANT=y
 BR2_PACKAGE_WPA_SUPPLICANT_WIRED=y
@@ -75,7 +89,7 @@ BR2_PACKAGE_WPA_SUPPLICANT_WPA3=y
 BR2_PACKAGE_WPA_SUPPLICANT_CTRL_IFACE=y
 # BR2_TARGET_ROOTFS_TAR is not set
 BR2_PACKAGE_HOST_KMOD_XZ=y
-BR2_NERVES_SYSTEM_NAME="nerves_system_rpi5"
+BR2_NERVES_SYSTEM_NAME="ovcs_bridges_system_rpi5"
 BR2_NERVES_ADDITIONAL_IMAGE_FILES="${NERVES_DEFCONFIG_DIR}/fwup.conf ${NERVES_DEFCONFIG_DIR}/cmdline-a.txt ${NERVES_DEFCONFIG_DIR}/cmdline-b.txt ${NERVES_DEFCONFIG_DIR}/config.txt"
 BR2_PACKAGE_NBTTY=y
 BR2_PACKAGE_NERVES_CONFIG=y
