@@ -79,14 +79,31 @@ jobs:
         timeout-minutes: 90
         run: mix compile
 
+      - name: Package the portable tarball
+        env:
+          MIX_TARGET: rpi5
+        # `mix compile` leaves the system as a directory tree under
+        # .nerves/artifacts/<name>-portable-<version>/. The
+        # canonical, releasable artifact is a tarball of that
+        # directory — `mix nerves.artifact` is the Nerves task that
+        # creates it (named `<name>-portable-<version>-<sha>.tar.gz`).
+        run: mix nerves.artifact
+
       - name: Locate the portable tarball
         id: artifact
         run: |
           set -e
-          path=$(ls .nerves/artifacts/${{ github.event.repository.name }}-portable-*.tar.gz 2>/dev/null | head -1)
+          # Tarball lands either in .nerves/artifacts/ or in the
+          # project root depending on the Nerves version; check both.
+          path=$(ls .nerves/artifacts/${{ github.event.repository.name }}-portable-*.tar.gz \
+                    ${{ github.event.repository.name }}-portable-*.tar.gz \
+                    2>/dev/null | head -1)
           if [ -z "$path" ]; then
-            echo "no tarball found in .nerves/artifacts/" >&2
+            echo "no tarball found" >&2
+            echo "--- .nerves/artifacts/ ---"
             ls -la .nerves/artifacts/ || true
+            echo "--- project root ---"
+            ls -la ./*.tar.gz 2>/dev/null || true
             exit 1
           fi
           name=$(basename "$path")
