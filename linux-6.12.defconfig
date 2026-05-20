@@ -362,6 +362,10 @@ CONFIG_REGULATOR_RASPBERRYPI_TOUCHSCREEN_ATTINY=m
 CONFIG_REGULATOR_RASPBERRYPI_TOUCHSCREEN_V2=m
 CONFIG_MEDIA_SUPPORT=m
 CONFIG_MEDIA_SUPPORT_FILTER=y
+# libcamera's Raspberry Pi pipeline opens v4l-subdev nodes to control
+# the sensor (set format, exposure, gain) — without this, rpicam-hello
+# returns "No cameras available!" even with the sensor module bound.
+CONFIG_VIDEO_V4L2_SUBDEV_API=y
 CONFIG_MEDIA_CAMERA_SUPPORT=y
 CONFIG_MEDIA_PLATFORM_SUPPORT=y
 CONFIG_MEDIA_USB_SUPPORT=y
