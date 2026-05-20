@@ -19,12 +19,16 @@ permissions:
 
 env:
   # ubuntu-22.04 ships GCC 11 + CMake 3.22, which matches what
-  # Buildroot 2024.08 was tested against. Newer Ubuntu releases ship
+  # Buildroot 2025.11 was tested against. Newer Ubuntu releases ship
   # GCC 13+ / CMake 4 and trip implicit-function-declaration errors
-  # in gnulib-derived host packages (host-m4, host-lzo, …).
-  ERLANG_VERSION: "27.3"
-  ELIXIR_VERSION: "1.17.3-otp-27"
-  NERVES_BOOTSTRAP_VERSION: "1.13.0"
+  # in gnulib-derived host packages.
+  #
+  # OTP must match the version the Nerves system ships on target —
+  # upstream nerves_system_rpi5 v2.x ships OTP 28, so host needs 28
+  # too (Mix refuses to cross-compile across major OTP versions).
+  ERLANG_VERSION: "28.4.1"
+  ELIXIR_VERSION: "1.19.5-otp-28"
+  NERVES_BOOTSTRAP_VERSION: "1.15.0"
 
 jobs:
   build:
