@@ -68,7 +68,16 @@ defmodule OvcsBridgesRpi5.MixProject do
   defp deps do
     [
       {:nerves, "~> 1.11", runtime: false},
-      {:nerves_system_br, "1.29.3", runtime: false},
+      # Bumped to 1.33.x to pick up rpi-libcamera's PISP pipeline
+      # support (rpi-libcamera.mk gains `ifeq ($(BR2_PACKAGE_RPI_LIBPISP),y)
+      # → RPI_LIBCAMERA_PIPELINES-y += rpi/pisp + dep on rpi-libpisp`).
+      # Without it Buildroot builds libcamera with `-Dpipelines=rpi/vc4`
+      # only and rpicam-hello returns "No cameras available!" on the Pi 5
+      # even though the kernel rp1-cfe driver sees the imx708 sensors.
+      # The other ovcs_base_can_system_{rpi3a,rpi4} forks stay on 1.29.3 —
+      # bridges/firmware's `targets:` gating keeps each MIX_TARGET's deps
+      # tree isolated, so this bump only affects rpi5 builds.
+      {:nerves_system_br, "~> 1.33", runtime: false},
       {:nerves_toolchain_aarch64_nerves_linux_gnu, "~> 13.2.0", runtime: false},
       {:nerves_system_linter, "~> 0.4", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.22", only: :docs, runtime: false}
