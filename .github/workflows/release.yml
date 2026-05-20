@@ -66,6 +66,37 @@ jobs:
           mix local.rebar --force
           mix archive.install --force hex nerves_bootstrap ${{ env.NERVES_BOOTSTRAP_VERSION }}
 
+      # ── caches ────────────────────────────────────────────────────
+      # Two independent caches stack to cut subsequent builds from
+      # ~60 min to <10 min:
+      #
+      #   1. ~/.nerves/dl/        — Buildroot source tarballs (all
+      #      ~150 packages). Invalidated only when nerves_defconfig
+      #      changes the package list.
+      #   2. ~/.nerves/artifacts/ — the cross-compile toolchain
+      #      Nerves downloads (nerves_toolchain_aarch64_nerves_linux_gnu,
+      #      ~500 MB after extract). Invalidated when nerves_system_br
+      #      or the toolchain mix lock entry changes.
+      #
+      # Restoring saves the network + extract cost; the host
+      # toolchain compile + most package builds still run, but
+      # incremental Buildroot reuses object files where it can.
+      - name: Cache Buildroot source downloads
+        uses: actions/cache@v4
+        with:
+          path: ~/.nerves/dl
+          key: nerves-dl-${{ hashFiles('nerves_defconfig', 'mix.lock') }}
+          restore-keys: |
+            nerves-dl-
+
+      - name: Cache Nerves toolchain artifacts
+        uses: actions/cache@v4
+        with:
+          path: ~/.nerves/artifacts
+          key: nerves-toolchain-${{ hashFiles('mix.lock') }}
+          restore-keys: |
+            nerves-toolchain-
+
       - name: Fetch Mix dependencies
         env:
           MIX_TARGET: rpi5
@@ -74,10 +105,16 @@ jobs:
       - name: Build the Nerves system (Buildroot)
         env:
           MIX_TARGET: rpi5
-        # First-time Buildroot can take 30–60 min on a 4-vCPU runner.
-        # `mix compile` drives the make all+source+legal-info pipeline.
+        # First-time Buildroot can take 30–60 min even with -j4;
+        # cached builds with .nerves/dl + toolchain populated drop
+        # to ~10–15 min. BR2_JLEVEL + MAKEFLAGS are exported with
+        # shell expansion so $(nproc) actually resolves.
         timeout-minutes: 90
-        run: mix compile
+        run: |
+          export BR2_JLEVEL="$(nproc)"
+          export MAKEFLAGS="-j$(nproc)"
+          echo "Building with BR2_JLEVEL=$BR2_JLEVEL"
+          mix compile
 
       - name: Package the portable tarball
         env:
