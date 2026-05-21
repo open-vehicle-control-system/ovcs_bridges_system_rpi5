@@ -360,15 +360,17 @@ CONFIG_REGULATOR_AD5398=m
 CONFIG_REGULATOR_GPIO=y
 CONFIG_REGULATOR_RASPBERRYPI_TOUCHSCREEN_ATTINY=m
 CONFIG_REGULATOR_RASPBERRYPI_TOUCHSCREEN_V2=m
-CONFIG_MEDIA_SUPPORT=m
-CONFIG_MEDIA_SUPPORT_FILTER=y
-# libcamera's Raspberry Pi pipeline opens v4l-subdev nodes to control
-# the sensor (set format, exposure, gain) — without this, rpicam-hello
-# returns "No cameras available!" even with the sensor module bound.
-# V4L2_SUBDEV_API depends on VIDEO_DEV + MEDIA_CONTROLLER, set both
-# explicitly so the option isn't silently dropped at kernel config
+# libcamera's Raspberry Pi pipeline opens /dev/v4l-subdev* nodes to
+# control the sensor (set format, exposure, gain). Without those
+# nodes rpicam-hello returns "No cameras available!" even with the
+# imx708 driver bound. Build the media core into the kernel (=y, not
+# =m) so the dependent boolean configs (MEDIA_CONTROLLER,
+# VIDEO_V4L2_SUBDEV_API) actually take effect — when MEDIA_SUPPORT
+# is =m, those dependent bools get silently stripped at kconfig
 # merge time.
-CONFIG_VIDEO_DEV=m
+CONFIG_MEDIA_SUPPORT=y
+CONFIG_MEDIA_SUPPORT_FILTER=y
+CONFIG_VIDEO_DEV=y
 CONFIG_MEDIA_CONTROLLER=y
 CONFIG_VIDEO_V4L2_SUBDEV_API=y
 
