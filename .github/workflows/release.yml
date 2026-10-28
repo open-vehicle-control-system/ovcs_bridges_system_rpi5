@@ -18,17 +18,16 @@ permissions:
   contents: write
 
 env:
-  # ubuntu-22.04 ships GCC 11 + CMake 3.22, which matches what
-  # Buildroot 2025.11 was tested against. Newer Ubuntu releases ship
-  # GCC 13+ / CMake 4 and trip implicit-function-declaration errors
-  # in gnulib-derived host packages.
+  # ubuntu-22.04 ships GCC 11 + CMake 3.22. Newer host GCC releases
+  # have tripped implicit-function-declaration errors in gnulib-derived
+  # host packages.
   #
   # OTP must match the version the Nerves system ships on target —
-  # upstream nerves_system_rpi5 v2.x ships OTP 28, so host needs 28
+  # upstream nerves_system_rpi5 v2.2.x ships OTP 29, so host needs 29
   # too (Mix refuses to cross-compile across major OTP versions).
-  ERLANG_VERSION: "28.4.1"
-  ELIXIR_VERSION: "1.19.5-otp-28"
-  NERVES_BOOTSTRAP_VERSION: "1.15.0"
+  ERLANG_VERSION: "29.1.2"
+  ELIXIR_VERSION: "1.20.4-otp-29"
+  NERVES_BOOTSTRAP_VERSION: "1.16.0"
 
 jobs:
   build:
@@ -55,8 +54,8 @@ jobs:
         run: |
           # fwup is the firmware-packager Nerves uses to assemble the
           # final .fw image. The Debian package is fine.
-          wget -q https://github.com/fwup-home/fwup/releases/download/v1.12.0/fwup_1.12.0_amd64.deb
-          sudo apt-get install -y ./fwup_1.12.0_amd64.deb
+          wget -q https://github.com/fwup-home/fwup/releases/download/v1.17.1/fwup_1.17.1_amd64.deb
+          sudo apt-get install -y ./fwup_1.17.1_amd64.deb
 
       - name: Install Erlang + Elixir
         uses: erlef/setup-beam@v1
@@ -113,7 +112,7 @@ jobs:
         # cached builds with .nerves/dl + toolchain populated drop
         # to ~10–15 min. BR2_JLEVEL + MAKEFLAGS are exported with
         # shell expansion so $(nproc) actually resolves.
-        timeout-minutes: 90
+        timeout-minutes: 300
         run: |
           export BR2_JLEVEL="$(nproc)"
           export MAKEFLAGS="-j$(nproc)"
@@ -171,3 +170,4 @@ jobs:
           # appends to it.
           files: ${{ steps.artifact.outputs.path }}
           fail_on_unmatched_files: true
+          prerelease: ${{ contains(github.ref_name, '-') }}
