@@ -1,0 +1,12 @@
+config BR2_PACKAGE_HAILORT_DRIVERS
+	bool "hailort-drivers"
+	depends on BR2_LINUX_KERNEL
+	help
+	  Hailo-8 PCIe kernel driver (hailo_pci) and its firmware.
+	  The HailoRT userspace library is not included; its version
+	  must match this driver's.
+
+	  https://github.com/hailo-ai/hailort-drivers
+
+comment "hailort-drivers needs a Linux kernel to be built"
+	depends on !BR2_LINUX_KERNEL

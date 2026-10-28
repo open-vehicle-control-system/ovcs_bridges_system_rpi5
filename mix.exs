@@ -121,6 +121,7 @@ defmodule OvcsBridgesSystemRpi5.MixProject do
       "linux-6.18.defconfig",
       "mix.exs",
       "nerves_defconfig",
+      "package",
       "post-build.sh",
       "post-createfs.sh",
       "ramoops-pi4-overlay.dts",
