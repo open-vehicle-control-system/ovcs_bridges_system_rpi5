@@ -383,8 +383,12 @@ CONFIG_VIDEO_RPI_HEVC_DEC=m
 # without needing module autoloading (Nerves doesn't run udev). The
 # RP1 CFE driver `select`s VIDEO_V4L2_SUBDEV_API, MEDIA_CONTROLLER,
 # VIDEOBUF2_DMA_CONTIG, and V4L2_FWNODE — all needed by libcamera.
+# It is the downstream driver: it binds the `raspberrypi,rp1-cfe` nodes
+# the firmware device tree declares and libcamera's rpi/pisp pipeline
+# expects. VIDEO_RP1_CFE is the upstream driver, which only binds
+# `raspberrypi,rp1-cfe-upstream`.
 CONFIG_VIDEO_RASPBERRYPI_PISP_BE=y
-CONFIG_VIDEO_RP1_CFE=y
+CONFIG_VIDEO_RP1_CFE_DOWNSTREAM=y
 CONFIG_VIDEO_IMX219=m
 CONFIG_VIDEO_IMX296=m
 CONFIG_VIDEO_IMX477=m
