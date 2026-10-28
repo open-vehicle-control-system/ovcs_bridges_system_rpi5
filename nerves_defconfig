@@ -63,14 +63,12 @@ BR2_PACKAGE_CAIRO=y
 BR2_PACKAGE_DTC=y
 BR2_PACKAGE_X264=y
 BR2_PACKAGE_LIBMNL=y
-# OVCS bridges system additions — CAN tooling + IP routing/filtering
-# used by Cantastic (vcan auto-create), socketcand bridges, and any
-# downstream firewall rules. None of these are pulled in by the
-# upstream nerves_system_rpi5 defconfig.
+# OVCS bridges system additions — CAN tooling + IP routing used by
+# Cantastic (vcan auto-create) and socketcand bridges. None of these
+# are pulled in by the upstream nerves_system_rpi5 defconfig.
 BR2_PACKAGE_LIBSOCKETCAN=y
 BR2_PACKAGE_CAN_UTILS=y
 BR2_PACKAGE_IPROUTE2=y
-BR2_PACKAGE_IPTABLES=y
 BR2_PACKAGE_SOCKETCAND=y
 # Intel Wi-Fi 6 firmware (AX2xx series). The perception Pi commonly
 # runs over Wi-Fi when on a bench; the iwlwifi driver needs this
