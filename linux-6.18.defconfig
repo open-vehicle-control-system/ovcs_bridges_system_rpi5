@@ -47,6 +47,9 @@ CONFIG_PM_DEBUG=y
 CONFIG_CPU_IDLE=y
 CONFIG_CPU_FREQ=y
 CONFIG_CPU_FREQ_STAT=y
+# performance by default: under schedutil, interrupt latency at low clock
+# speeds overruns SPI-attached UART FIFOs and delays control traffic.
+CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE=y
 CONFIG_CPU_FREQ_GOV_POWERSAVE=y
 CONFIG_CPU_FREQ_GOV_USERSPACE=y
 CONFIG_CPU_FREQ_GOV_ONDEMAND=y
