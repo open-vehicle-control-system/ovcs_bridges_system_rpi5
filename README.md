@@ -36,6 +36,7 @@ running a pre-2.0 firmware and haven't upgraded yet.
 | UART                 | 2 available - `ttyAMA10`, `ttyAMA0` |
 | Display              | HDMI or 7" RPi Touchscreen       |
 | Camera               | Official RPi Cameras (libcamera) |
+| GPU compute          | Vulkan (Mesa v3dv, vulkan-loader) |
 | Ethernet             | Yes                              |
 | WiFi                 | Yes - VintageNet                 |
 | Bluetooth            | Untested                         |
