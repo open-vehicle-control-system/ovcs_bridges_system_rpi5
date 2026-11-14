@@ -1,10 +1,10 @@
 config BR2_PACKAGE_HAILORT_DRIVERS
 	bool "hailort-drivers"
 	depends on BR2_LINUX_KERNEL
-	depends on BR2_PACKAGE_HAILORT
-	select BR2_PACKAGE_HAILORT_FIRMWARE
 	help
-	  HailoRT PCIe drivers for Hailo AI accelerators.
+	  Hailo-8 PCIe kernel driver (hailo_pci) and its firmware.
+	  The HailoRT userspace library is not included; its version
+	  must match this driver's.
 
 	  https://github.com/hailo-ai/hailort-drivers
 
